@@ -4,6 +4,7 @@ import SearchBar from "./components/SearchBar";
 import RandomButton from "./components/RandomButton";
 import CocktailList from "./components/CocktailList";
 import CocktailDetails from "./components/CocktailDetails";
+import backgroundImage from './assets/background.jpg';
 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
 
@@ -79,7 +80,16 @@ function App() {
   const showDetails = (cocktail) => setSelected(cocktail);
 
   return (
-    <div className="min-h-screen bg-blue-50 p-4">
+    <div
+      className="min-h-screen p-4"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <Header />
       <div className="flex flex-wrap gap-4 justify-center items-center mb-6">
         {/* Existing SearchBar and RandomButton */}
@@ -132,7 +142,7 @@ function App() {
           ))}
         </select>
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-blue-600"
           onClick={handleFilter}
           type="button"
         >
@@ -140,7 +150,7 @@ function App() {
         </button>
       </div>
 
-      {loading && <div className="text-center text-blue-600">Loading...</div>}
+      {loading && <div className="text-center text-black">Loading...</div>}
       {!selected && cocktails.length > 0 && (
         <CocktailList cocktails={cocktails} showDetails={showDetails} />
       )}
@@ -148,7 +158,7 @@ function App() {
         <CocktailDetails selected={selected} setSelected={setSelected} />
       )}
       {!loading && cocktails.length === 0 && !selected && (
-        <div className="text-center text-gray-500 mt-8">
+        <div className="text-center text-black mt-8">
           No cocktails found. Try searching for something else!
         </div>
       )}

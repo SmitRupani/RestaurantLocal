@@ -7,7 +7,7 @@ const SearchBar = ({ search, setSearch, handleSearch }) => (
         value={search}
         onChange={e => setSearch(e.target.value)}
       />
-      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
+      <button className="bg-black text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
         Search
       </button>
     </form>
