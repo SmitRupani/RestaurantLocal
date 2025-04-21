@@ -14,7 +14,7 @@ const SearchBar = ({ search, setSearch, handleSearch }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex gap-2">
+    <form onSubmit={onSubmit} className="flex flex-row gap-2">
       <input
         className="px-3 py-2 rounded border border-white text-white"
         type="text"
@@ -25,10 +25,10 @@ const SearchBar = ({ search, setSearch, handleSearch }) => {
           if (error) setError("");
         }}
       />
+      {error && <p className="text-red-500">{error}</p>}
       <button className="bg-black text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
         Search
       </button>
-      {error && <span className="text-red-500">{error}</span>}
     </form>
   );
 };

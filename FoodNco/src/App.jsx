@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Favorites from "./components/Favorites";
-import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
-import RandomButton from "./components/RandomButton";
-import CocktailList from "./components/CocktailList";
-import CocktailDetails from "./components/CocktailDetails";
-import Pagination from "./components/Pagination";
-import RandomCocktail from "./components/RandomCocktail";
-import backgroundImage from "./assets/background.jpg";
+const Favorites = lazy(() => import("./components/Favorites"));
+const Header = lazy(() => import("./components/Header"));
+const SearchBar = lazy(() => import("./components/SearchBar"));
+const CocktailList = lazy(() => import("./components/CocktailList"));
+const CocktailDetails = lazy(() => import("./components/CocktailDetails"));
+const Pagination = lazy(() => import("./components/Pagination"));
+const RandomCocktail = lazy(() => import("./components/RandomCocktail"));
 import bg from "./assets/bg.jpeg";
 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
@@ -95,7 +93,6 @@ function App() {
     setLoading(true);
     setSelected(null);
 
-    // Example: Fetch by category (or ingredient, or whichever is most restrictive)
     let url = "";
     if (category) {
       url = `${API_BASE}filter.php?c=${encodeURIComponent(category)}`;
@@ -109,7 +106,6 @@ function App() {
     let data = await res.json();
     let filtered = data.drinks || [];
 
-    // Further filter by search, glass, alcoholic, etc.
     if (search && url.indexOf("search.php") === -1) {
       filtered = filtered.filter((cocktail) =>
         cocktail.strDrink.toLowerCase().includes(search.toLowerCase())
@@ -125,16 +121,6 @@ function App() {
     }
 
     setCocktails(filtered);
-    setLoading(false);
-  };
-
-  const getRandom = async () => {
-    setLoading(true);
-    setSelected(null);
-    setSearch("");
-    const res = await fetch(`${API_BASE}random.php`);
-    const data = await res.json();
-    setCocktails(data.drinks || []);
     setLoading(false);
   };
 
@@ -198,9 +184,9 @@ function App() {
                       handleCombinedSearchFilter();
                     }}
                   >
-                    <option value="">All Categories</option>
+                    <option style={{ color: "white", backgroundColor: "black" }} value="">All Categories</option>
                     {categories.map((cat) => (
-                      <option key={cat.strCategory} value={cat.strCategory}>
+                      <option style={{ color: "white", backgroundColor: "black" }} key={cat.strCategory} value={cat.strCategory}>
                         {cat.strCategory}
                       </option>
                     ))}
@@ -210,9 +196,9 @@ function App() {
                     value={glass}
                     onChange={(e) => setGlass(e.target.value)}
                   >
-                    <option value="">All Glasses</option>
+                    <option style={{ color: "white", backgroundColor: "black" }} value="">All Glasses</option>
                     {glasses.map((gls) => (
-                      <option key={gls.strGlass} value={gls.strGlass}>
+                      <option style={{ color: "white", backgroundColor: "black" }} key={gls.strGlass} value={gls.strGlass}>
                         {gls.strGlass}
                       </option>
                     ))}
@@ -222,9 +208,9 @@ function App() {
                     value={alcoholic}
                     onChange={(e) => setAlcoholic(e.target.value)}
                   >
-                    <option value="">All Types</option>
+                    <option style={{ color: "white", backgroundColor: "black" }} value="">All Types</option>
                     {alcoholicOptions.map((alc) => (
-                      <option key={alc.strAlcoholic} value={alc.strAlcoholic}>
+                      <option style={{ color: "white", backgroundColor: "black" }} key={alc.strAlcoholic} value={alc.strAlcoholic}>
                         {alc.strAlcoholic}
                       </option>
                     ))}
