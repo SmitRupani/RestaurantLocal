@@ -1,17 +1,36 @@
-const SearchBar = ({ search, setSearch, handleSearch }) => (
-    <form onSubmit={handleSearch} className="flex gap-2">
+import React, { useState } from "react";
+
+const SearchBar = ({ search, setSearch, handleSearch }) => {
+  const [error, setError] = useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!search.trim()) {
+      setError("Please enter a search term.");
+      return;
+    }
+    setError("");
+    handleSearch(e);
+  };
+
+  return (
+    <form onSubmit={onSubmit} className="flex gap-2">
       <input
-        className="px-3 py-2 rounded border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="px-3 py-2 rounded border border-white text-white"
         type="text"
         placeholder="Search cocktails..."
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={e => {
+          setSearch(e.target.value);
+          if (error) setError("");
+        }}
       />
       <button className="bg-black text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
         Search
       </button>
+      {error && <span className="text-red-500">{error}</span>}
     </form>
   );
-  
-  export default SearchBar;
-  
+};
+
+export default SearchBar;

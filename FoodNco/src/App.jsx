@@ -9,6 +9,7 @@ import CocktailDetails from "./components/CocktailDetails";
 import Pagination from "./components/Pagination";
 import RandomCocktail from "./components/RandomCocktail";
 import backgroundImage from "./assets/background.jpg";
+import bg from "./assets/bg.jpeg";
 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
 
@@ -155,7 +156,7 @@ function App() {
       <div
         className="min-h-screen p-4"
         style={{
-          backgroundImage: `url(${backgroundImage})`,
+          backgroundImage: `url(${bg})`,
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
           backgroundSize: "cover",
@@ -184,13 +185,11 @@ function App() {
                   <SearchBar
                     search={search}
                     setSearch={setSearch}
-                    handleSearch={
-                      search === "" ? getRandom : handleCombinedSearchFilter
-                    }
+                    handleSearch={handleCombinedSearchFilter}
                   />
 
                   <select
-                    className="p-2 rounded border"
+                    className="p-2 rounded border text-white"
                     value={category}
                     onChange={(e) => {
                       setCategory(e.target.value);
@@ -207,7 +206,7 @@ function App() {
                     ))}
                   </select>
                   <select
-                    className="p-2 rounded border"
+                    className="p-2 rounded border text-white"
                     value={glass}
                     onChange={(e) => setGlass(e.target.value)}
                   >
@@ -219,7 +218,7 @@ function App() {
                     ))}
                   </select>
                   <select
-                    className="p-2 rounded border"
+                    className="p-2 rounded border text-white"
                     value={alcoholic}
                     onChange={(e) => setAlcoholic(e.target.value)}
                   >
@@ -240,7 +239,7 @@ function App() {
                 </div>
 
                 {loading && (
-                  <div className="text-center text-black">Loading...</div>
+                  <div className="text-center text-white">Loading...</div>
                 )}
                 {!selected && cocktails.length > 0 && (
                   <CocktailList
@@ -266,7 +265,7 @@ function App() {
                 )}
 
                 {!loading && cocktails.length === 0 && !selected && (
-                  <div className="text-center text-black mt-8">
+                  <div className="text-center text-white mt-8">
                     No cocktails found. Try searching for something else!
                   </div>
                 )}
