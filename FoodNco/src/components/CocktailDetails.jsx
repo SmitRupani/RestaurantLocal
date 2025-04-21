@@ -1,4 +1,6 @@
-const CocktailDetails = ({ selected, setSelected }) => (
+const CocktailDetails = ({ selected, setSelected, favorites, toggleFavorite }) => {
+  const isFavorite = favorites.some(fav => fav.idDrink === selected.idDrink);
+  return (
     <div className="mt-8 max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6">
       <button
         className="mb-4 text-blue-500 hover:underline"
@@ -23,8 +25,14 @@ const CocktailDetails = ({ selected, setSelected }) => (
       </ul>
       <h3 className="font-semibold mb-2">Instructions:</h3>
       <p className="mb-2">{selected.strInstructions}</p>
+      <button
+        onClick={() => toggleFavorite(selected)}
+        className="text-2xl"
+      >
+        {isFavorite ? '💖' : '🤍'}
+      </button>
     </div>
-  );
+  )};
   
   export default CocktailDetails;
   
