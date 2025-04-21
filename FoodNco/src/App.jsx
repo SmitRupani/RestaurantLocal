@@ -7,6 +7,7 @@ import RandomButton from "./components/RandomButton";
 import CocktailList from "./components/CocktailList";
 import CocktailDetails from "./components/CocktailDetails";
 import Pagination from "./components/Pagination";
+import RandomCocktail from "./components/RandomCocktail";
 import backgroundImage from "./assets/background.jpg";
 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
@@ -88,6 +89,44 @@ function App() {
     setLoading(false);
   };
 
+  const handleCombinedSearchFilter = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setSelected(null);
+
+    // Example: Fetch by category (or ingredient, or whichever is most restrictive)
+    let url = "";
+    if (category) {
+      url = `${API_BASE}filter.php?c=${encodeURIComponent(category)}`;
+      // } else if (ingredient) {
+      //   url = `${API_BASE}filter.php?i=${encodeURIComponent(ingredient)}`;
+    } else {
+      url = `${API_BASE}search.php?s=${search}`;
+    }
+
+    const res = await fetch(url);
+    let data = await res.json();
+    let filtered = data.drinks || [];
+
+    // Further filter by search, glass, alcoholic, etc.
+    if (search && url.indexOf("search.php") === -1) {
+      filtered = filtered.filter((cocktail) =>
+        cocktail.strDrink.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    if (glass) {
+      filtered = filtered.filter((cocktail) => cocktail.strGlass === glass);
+    }
+    if (alcoholic) {
+      filtered = filtered.filter(
+        (cocktail) => cocktail.strAlcoholic === alcoholic
+      );
+    }
+
+    setCocktails(filtered);
+    setLoading(false);
+  };
+
   const getRandom = async () => {
     setLoading(true);
     setSelected(null);
@@ -124,12 +163,15 @@ function App() {
         }}
       >
         <Header />
-        <nav className="flex justify-center gap-4 mb-6">
+        <nav className="flex justify-center gap-4 mb-6 text-lg font-semibold border border-gray-300 bg-gray-300 rounded-lg p-4 shadow">
           <Link to="/" className="text-blue-700 hover:underline">
             Home
           </Link>
           <Link to="/favorites" className="text-blue-700 hover:underline">
             Favorites
+          </Link>
+          <Link to="/random" className="text-blue-700 hover:underline">
+            Random
           </Link>
         </nav>
 
@@ -139,15 +181,14 @@ function App() {
             element={
               <>
                 <div className="flex flex-wrap gap-4 justify-center items-center mb-6">
-                  {/* Existing SearchBar and RandomButton */}
                   <SearchBar
                     search={search}
                     setSearch={setSearch}
-                    handleSearch={handleSearch}
+                    handleSearch={
+                      search === "" ? getRandom : handleCombinedSearchFilter
+                    }
                   />
-                  <RandomButton getRandom={getRandom} />
 
-                  {/* New Filter Dropdowns */}
                   <select
                     className="p-2 rounded border"
                     value={category}
@@ -155,6 +196,7 @@ function App() {
                       setCategory(e.target.value);
                       setGlass("");
                       setAlcoholic("");
+                      handleCombinedSearchFilter();
                     }}
                   >
                     <option value="">All Categories</option>
@@ -190,7 +232,7 @@ function App() {
                   </select>
                   <button
                     className="bg-black text-white px-4 py-2 rounded hover:bg-blue-600"
-                    onClick={handleFilter}
+                    onClick={handleCombinedSearchFilter}
                     type="button"
                   >
                     Filter
@@ -208,7 +250,7 @@ function App() {
                     toggleFavorite={toggleFavorite}
                   />
                 )}
-                
+
                 <Pagination
                   currentPage={currentPage}
                   totalPages={Math.ceil(cocktails.length / itemsPerPage)}
@@ -238,6 +280,15 @@ function App() {
               <Favorites
                 favorites={favorites}
                 showDetails={showDetails}
+                toggleFavorite={toggleFavorite}
+              />
+            }
+          />
+          <Route
+            path="/random"
+            element={
+              <RandomCocktail
+                favorites={favorites}
                 toggleFavorite={toggleFavorite}
               />
             }
