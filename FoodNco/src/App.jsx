@@ -7,6 +7,7 @@ const CocktailList = lazy(() => import("./components/CocktailList"));
 const CocktailDetails = lazy(() => import("./components/CocktailDetails"));
 const Pagination = lazy(() => import("./components/Pagination"));
 const RandomCocktail = lazy(() => import("./components/RandomCocktail"));
+const NavBar = lazy(() => import("./components/NavBar"));
 import bg from "./assets/bg.jpeg";
 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
@@ -150,17 +151,7 @@ function App() {
         }}
       >
         <Header />
-        <nav className="flex justify-center gap-4 mb-6 text-lg font-semibold border border-gray-300 bg-gray-300 rounded-lg p-4 shadow">
-          <Link to="/" className="text-blue-700 hover:underline">
-            Home
-          </Link>
-          <Link to="/favorites" className="text-blue-700 hover:underline">
-            Favorites
-          </Link>
-          <Link to="/random" className="text-blue-700 hover:underline">
-            Random
-          </Link>
-        </nav>
+        <NavBar />
 
         <Routes>
           <Route
