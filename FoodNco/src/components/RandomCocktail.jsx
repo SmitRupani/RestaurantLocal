@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import CocktailDetails from "./CocktailDetails";
+import {useNavigate } from "react-router-dom";
 
 const API_BASE = "https://www.thecocktaildb.com/api/json/v1/1/";
 
 const RandomCocktail = ({ favorites, toggleFavorite }) => {
+  const navigate = useNavigate();
   const [randomCocktail, setRandomCocktail] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +34,7 @@ const RandomCocktail = ({ favorites, toggleFavorite }) => {
       {randomCocktail && (
         <CocktailDetails
           selected={randomCocktail}
-          setSelected={() => {}}
+          setSelected={() => navigate("/")}
           favorites={favorites}
           toggleFavorite={toggleFavorite}
         />
